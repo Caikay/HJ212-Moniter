@@ -41,7 +41,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         super.channelRead(ctx,msg);
         String response = service.monitor((String)msg,ctx.channel().remoteAddress().toString().substring(1));
-        if(response != null) ctx.write(response);
+        if(response != null) {ctx.write(response);}
         ctx.flush();
     }
 

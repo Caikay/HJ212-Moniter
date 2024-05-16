@@ -39,17 +39,13 @@ public class MonitorServiceAop {
 		log.info("\nSystem Message ==> Monitor Data Is Processing,Request Data Is: {}", args[0]);
 
 		LocalDateTime time = LocalDateTime.now(Clock.systemDefaultZone());
-		MonitorInfoPo infoPo = new MonitorInfoPo();
-		infoPo.setInfo((String) args[0]);
-		infoPo.setTime(time);
-		infoPo.setIPAddress((String) args[1]);
+		MonitorInfoPo infoPo = MonitorInfoPo.builder().info((String) args[0]).time(time).IPAddress((String) args[1]).build();
 		infoMapper.insert(infoPo);
 		try {
 			obj = point.proceed();
 		} catch (Throwable ex) {
 			//异常情况下,记录异常数据;
-			MonitorErrorPo monitorErrorPo = new MonitorErrorPo();
-			monitorErrorPo.setError(ex.getMessage()).setInfoId(infoPo.getId()).setTime(time);
+			MonitorErrorPo monitorErrorPo = MonitorErrorPo.builder().error(ex.getMessage()).infoId(infoPo.getId()).time(time).build();
 			errorMapping.insert(monitorErrorPo);
 			log.error(ex.getMessage(), ex);
 			throw new RuntimeException(ex);

@@ -3,92 +3,58 @@ package com.github.guocay.hj212.business.po;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@TableName("T_MONITOR_FACTOR")
+/**
+ * 存储监控因素相关的数据
+ */
+@TableName("t_monitor_factor")
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class MonitorFactorPo {
+	/**
+     * 主键
+     */
     @TableId("id")
     private String id;
 
+	/**
+     * 监控设备ID
+     */
     @TableField("mncode")
     private String mncode;
 
+	/**
+     * 监控数据时间
+     */
     @TableField("data_time")
     private String dataTime;
 
+	/**
+     * 监控因子
+     */
     @TableField("factor")
     private String factor;
 
+	/**
+     * 监控因子值
+     */
     @TableField("value")
     private String value;
 
+	/**
+     * 监控数据状态
+     */
     @TableField("data_status")
     private String dataStatus;
 
     @TableField("time")
     private LocalDateTime time;
-
-	public String getId() {
-		return id;
-	}
-
-	public MonitorFactorPo setId(String id) {
-		this.id = id;
-		return this;
-	}
-
-	public String getMncode() {
-		return mncode;
-	}
-
-	public MonitorFactorPo setMncode(String mncode) {
-		this.mncode = mncode;
-		return this;
-	}
-
-	public String getDataTime() {
-		return dataTime;
-	}
-
-	public MonitorFactorPo setDataTime(String dataTime) {
-		this.dataTime = dataTime;
-		return this;
-	}
-
-	public String getFactor() {
-		return factor;
-	}
-
-	public MonitorFactorPo setFactor(String factor) {
-		this.factor = factor;
-		return this;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public MonitorFactorPo setValue(String value) {
-		this.value = value;
-		return this;
-	}
-
-	public String getDataStatus() {
-		return dataStatus;
-	}
-
-	public MonitorFactorPo setDataStatus(String dataStatus) {
-		this.dataStatus = dataStatus;
-		return this;
-	}
-
-	public LocalDateTime getTime() {
-		return time;
-	}
-
-	public MonitorFactorPo setTime(LocalDateTime time) {
-		this.time = time;
-		return this;
-	}
 }

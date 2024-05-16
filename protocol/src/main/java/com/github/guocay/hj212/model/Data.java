@@ -8,6 +8,9 @@ import com.github.guocay.hj212.model.verify.groups.VersionGroup;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -15,6 +18,10 @@ import java.util.List;
  * 数据段
  * @author aCay
  */
+@lombok.Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @SuppressWarnings("unused")
 public class Data {
 
@@ -86,84 +93,5 @@ public class Data {
     @JsonProperty("CP")
     private CpData cp;
 
-	public String getQn() {
-		return qn;
-	}
 
-	public Data setQn(String qn) {
-		this.qn = qn;
-		return this;
-	}
-
-	public Integer getpNum() {
-		return pNum;
-	}
-
-	public Data setpNum(Integer pNum) {
-		this.pNum = pNum;
-		return this;
-	}
-
-	public Integer getpNo() {
-		return pNo;
-	}
-
-	public Data setpNo(Integer pNo) {
-		this.pNo = pNo;
-		return this;
-	}
-
-	public String getSt() {
-		return st;
-	}
-
-	public Data setSt(String st) {
-		this.st = st;
-		return this;
-	}
-
-	public String getCn() {
-		return cn;
-	}
-
-	public Data setCn(String cn) {
-		this.cn = cn;
-		return this;
-	}
-
-	public String getPw() {
-		return pw;
-	}
-
-	public Data setPw(String pw) {
-		this.pw = pw;
-		return this;
-	}
-
-	public String getMn() {
-		return mn;
-	}
-
-	public Data setMn(String mn) {
-		this.mn = mn;
-		return this;
-	}
-
-	public List<DataFlag> getDataFlag() {
-		return dataFlag;
-	}
-
-	public Data setDataFlag(List<DataFlag> dataFlag) {
-		this.dataFlag = dataFlag;
-		return this;
-	}
-
-	public CpData getCp() {
-		return cp;
-	}
-
-	public Data setCp(CpData cp) {
-		this.cp = cp;
-		return this;
-	}
 }

@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableCaching
 @EnableScheduling
-@MapperScan("com.github.guocay.hj212.server.portal")
+@MapperScan("com.github.guocay.hj212")
 @SpringBootApplication
 public class MonitorCenterApplication implements CommandLineRunner {
 
@@ -26,7 +26,7 @@ public class MonitorCenterApplication implements CommandLineRunner {
     private NettyServer server;
 
     public static void main(String[] args) {
-        SpringApplication.run(MonitorCenterApplication.class, args);
+		SpringApplication.run(MonitorCenterApplication.class, args);
     }
 
     @Override

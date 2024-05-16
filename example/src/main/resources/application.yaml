@@ -2,7 +2,7 @@ application:
   title: 数据接收服务
   version: 1.0.0.RELEASE
 netty:
-  url: 192.168.10.103
+  url: 0.0.0.0
   port: 8001
 spring:
   application:
@@ -11,18 +11,18 @@ spring:
     dynamic:
       primary: master
       datasource:
+        #数据源1
         master:
-          type: com.alibaba.druid.pool.DruidDataSource
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://192.168.15.149:3306/master?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+          url: jdbc:mysql://url:3306/master?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
           username: root
-          password: root
+          password: *******
+        #数据源2
         environmental:
-          type: com.alibaba.druid.pool.DruidDataSource
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://192.168.15.149:3306/environmental?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+          url: jdbc:mysql://url:3306/environmental?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
           username: root
-          password: root
+          password: *******
   cache:
     type: ehcache
     ehcache:

@@ -8,6 +8,7 @@ import com.github.guocay.hj212.model.DataFlag;
 import com.github.guocay.hj212.business.core.annotaion.MonitorServiceListen;
 import com.github.guocay.hj212.business.core.util.Constant;
 import com.github.guocay.hj212.business.mapper.MonitorFactorMapping;
+import com.github.guocay.hj212.model.Pollution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Map;
 
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
@@ -39,24 +41,40 @@ public class MonitorService {
         this.factorMapper = factorMapper;
     }
 
+	/**
+     * 接收hj212协议内容
+     * @param monitorData hj212协议内容
+     * @param ipAddress ip地址
+     * @return hj212协议响应内容
+     * @throws Exception 抛出异常
+     */
     @MonitorServiceListen("hj212协议接收服务")
     public String monitor(String monitorData,String ipAddress) throws Exception{
         String response = null;
 		Data data = t212Mapper.readData(monitorData);
-		data.getCp().getPollution().forEach((key, value) -> {
-			MonitorFactorPo monitorFactorPo = new MonitorFactorPo();
-			monitorFactorPo.setDataStatus(Constant.EFFECTIVE).setMncode(data.getMn());
-			monitorFactorPo.setDataTime(data.getCp().getDataTime()).setFactor(key);
-			monitorFactorPo.setValue(value.getRtd().toString());
-			monitorFactorPo.setTime(LocalDateTime.now(Clock.systemDefaultZone()));
+		for (Map.Entry<String, Pollution> entry : data.getCp().getPollution().entrySet()) {
+			String key = entry.getKey();
+			Pollution value = entry.getValue();
+			MonitorFactorPo monitorFactorPo = MonitorFactorPo.builder().dataStatus(Constant.EFFECTIVE)
+				.mncode(data.getMn())
+				.dataTime(data.getCp().getDataTime())
+				.factor(key)
+				.value(value.getRtd().toString())
+				.time(LocalDateTime.now(Clock.systemDefaultZone()))
+				.build();
 			factorMapper.insert(monitorFactorPo);
-		});
+		}
+		//如果数据需要响应，返回响应值
 		if (DataFlag.A.isMarked(data.getDataFlag())) {
-			Data builder = new Data();
-			builder.setQn(data.getQn()).setSt(data.getSt()).setCn(Constant.DATA_RESPONSE);
-			builder.setPw(data.getPw()).setMn(data.getMn()).setCp(new CpData());
-			builder.setDataFlag(Collections.singletonList(DataFlag.V0));
-			response = t212Mapper.writeDataAsString(builder);
+			Data build = Data.builder().qn(data.getQn())
+				.st(data.getSt())
+				.cn(Constant.DATA_RESPONSE)
+				.pw(data.getPw())
+				.mn(data.getMn())
+				.cp(new CpData())
+				.dataFlag(Collections.singletonList(DataFlag.V0)).build();
+
+			response = t212Mapper.writeDataAsString(build);
 		}
         return response;
     }
